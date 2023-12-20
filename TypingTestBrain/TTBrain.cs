@@ -4,27 +4,34 @@ namespace TypingTestBrain;
 
 public class TTBrain
 {
-    public Text Text;
+    public Lines Lines;
     public Statistics Statistics;
     
-    public TTBrain(Text text, Statistics stats)
+    public TTBrain(Lines lines, Statistics stats)
     {
-        Text = text;
+        Lines = lines;
         Statistics = stats;
     }
 
     public void GetLines(string filePath)
     {
         string[] lines = File.ReadAllLines(filePath, Encoding.UTF8);
-        Lines allLines = new Lines();
-        var linesList = new List<string>();
+        string text = "";
 
         foreach (var line in lines)
         {
-            linesList.Add(line);
+            text += " " + line;
         }
 
-        allLines.AllLines = linesList;
-        Text.Lines = allLines;
+        text = text.Trim().Replace(",", "").Replace(".", "").ToLower();
+
+
+        var linesList = new List<string>();
+        for (int i = 0; i < text.Length / 50; i++)
+        {
+            linesList.Add(text.Substring(i * 50, text.Length - i * 50 >= 50 ? 50 : text.Length - i * 50));
+        }
+        
+        Lines.AllLines = linesList;
     }
 }
