@@ -37,6 +37,10 @@ class Program
         // TODO: Need to get normal input from GetLines().
         // So lines one by one and then just remember current index and compare to readkey..
 
+        var statistics = new Statistics();
+        var statisticsAccuracy = "";
+        var statisticsWPM = "";
+
         for (int i = 0; i < TtBrain.Lines.AllLines.Count; i++)
         {
             if(i != 0)
@@ -58,14 +62,14 @@ class Program
                     var key = Console.ReadKey().KeyChar.ToString();
                     if (key.Equals(" "))
                     {
-                        Console.SetCursorPosition(0, Console.CursorTop - 1);
-                        do { Console.Write("\b \b"); } while (Console.CursorLeft > 0);
+                        for (int k = 0; k < j; k++)
+                            { Console.Write("\b \b"); }
+                        break;                      
                         //Console.WriteLine(String.Format(" " + (Console.WindowWidth / 2) + " "));
                     }
                     else if (key.Equals(TtBrain.Lines.AllLines[i][j]))
                     {
                         Console.ReadKey().KeyChar.ToString(); // KeyChar reads key as on keyboard, f.e. Spacebar is just space not "Spacebar"
-                                                                             // Remove entered character from console
                         
                     }
                     else

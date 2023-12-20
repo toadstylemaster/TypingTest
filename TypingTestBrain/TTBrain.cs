@@ -33,5 +33,6 @@ public class TTBrain
         }
         
         Lines.AllLines = linesList;
+        Lines.AllWords = text.Split(' ').ToList();
     }
 }
