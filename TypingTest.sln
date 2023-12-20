@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{F0071772-0B1B-4ECF-8D67-422D63D13C11}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{F0071772-0B1B-4ECF-8D67-422D63D13C11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypingTestBrain", "TypingTestBrain\TypingTestBrain.csproj", "{90C58C67-BFDA-4756-8949-5F94F0534B8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypingTestBrain", "TypingTestBrain\TypingTestBrain.csproj", "{90C58C67-BFDA-4756-8949-5F94F0534B8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypingTestConsoleUI", "TypingTestConsoleUI\TypingTestConsoleUI.csproj", "{D4AC0137-A21D-4730-86F8-57392420870B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypingTestConsoleUI", "TypingTestConsoleUI\TypingTestConsoleUI.csproj", "{D4AC0137-A21D-4730-86F8-57392420870B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{430734F5-92A2-4779-8A65-55B2E7569A0F}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		typingText.txt = typingText.txt
 	EndProjectSection
 EndProject
@@ -29,5 +33,11 @@ Global
 		{D4AC0137-A21D-4730-86F8-57392420870B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4AC0137-A21D-4730-86F8-57392420870B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4AC0137-A21D-4730-86F8-57392420870B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {21386C0C-9D77-433B-B746-D48FCA176395}
 	EndGlobalSection
 EndGlobal

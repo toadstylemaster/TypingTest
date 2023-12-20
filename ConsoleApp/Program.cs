@@ -41,7 +41,31 @@ class Program
         var statisticsAccuracy = "";
         var statisticsWPM = "";
 
-        for (int i = 0; i < TtBrain.Lines.AllLines.Count; i++)
+        for (int i = 0; i < TtBrain.Lines.AllWords.Count; i++) // count is wrong!!
+        {
+            foreach (var word in TtBrain.Lines.AllWords)
+            {
+                
+            }
+        }
+
+
+        return "";
+
+        
+    }
+
+    private void WriteToConsole()
+    {
+        Console.WriteLine();
+    }
+}
+
+
+
+/*
+ 
+         for (int i = 0; i < TtBrain.Lines.AllLines.Count; i++)
         {
             if(i != 0)
             {
@@ -57,34 +81,34 @@ class Program
 
             for (int j = 0; j < TtBrain.Lines.AllLines[i].Length; j++)
             {
-                while (j < TtBrain.Lines.AllLines[i].Length)
+                for (int k = 0; k < TtBrain.Lines.AllLines[i][j]; k++)
                 {
                     var key = Console.ReadKey().KeyChar.ToString();
                     if (key.Equals(" "))
                     {
-                        for (int k = 0; k < j; k++)
-                            { Console.Write("\b \b"); }
-                        break;                      
+                        int currentLineCursor = Console.CursorTop;
+                        Console.SetCursorPosition(0, Console.CursorTop);
+                        for (int l = 0; l < Console.WindowWidth; l++)
+                            Console.Write(" ");
+                        Console.SetCursorPosition(0, currentLineCursor);
+                        break;
                         //Console.WriteLine(String.Format(" " + (Console.WindowWidth / 2) + " "));
                     }
                     else if (key.Equals(TtBrain.Lines.AllLines[i][j]))
                     {
                         Console.ReadKey().KeyChar.ToString(); // KeyChar reads key as on keyboard, f.e. Spacebar is just space not "Spacebar"
-                        
+                        Console.Write(key.ToString(), ConsoleColor.Green);
+
                     }
                     else
                     {
                         Console.ReadKey().KeyChar.ToString();
 
-                        
+
                     }
                 }
+             
             }
         }
-
-
-        return "";
-
-        
-    }
-}
+ 
+ */
