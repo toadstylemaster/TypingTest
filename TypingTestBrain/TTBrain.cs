@@ -14,7 +14,7 @@ public class TTBrain
         Statistics = stats;
     }
 
-    public void GetLines(string filePath)
+    public void GetLinesWithWords(string filePath)
     {
         string[] lines = File.ReadAllLines(filePath, Encoding.UTF8);
         string text = "";
@@ -33,18 +33,28 @@ public class TTBrain
             wordsList.Add(word);
         }
 
-
-        var linesList = new List<string>();
-        for (int i = 0; i < text.Length / 50; i++)
-        {
-            linesList.Add(text.Substring(i * 50, text.Length - i * 50 >= 50 ? 50 : text.Length - i * 50));
-        }
-
         Shuffle(wordsList);
-        Shuffle(linesList);
-
-        Lines.AllLines = linesList;
         Lines.AllWords = wordsList;
+        GetLines();
+    }
+
+    public void GetLines()
+    {
+        var line = "";
+
+        var lines = new List<string>();
+
+        for (int i = 0; i < Lines.AllWords.Count; i++)
+        {
+            line += Lines.AllWords[i] + " ";
+
+            if(i != 0 && i % 10 == 0 || i == Lines.AllWords.Count - 1)
+            {
+                line = line.Trim();
+                lines.Add(line);
+            }
+        }
+        Lines.AllLines = lines;
     }
 
 

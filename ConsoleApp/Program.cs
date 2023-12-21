@@ -31,33 +31,70 @@ class Program
 
     public static string StartTypingTest()
     {
-        TtBrain.GetLines(_textPath);
+        TtBrain.GetLinesWithWords(_textPath);
 
 
         // TODO: Need to get normal input from GetLines().
         // So lines one by one and then just remember current index and compare to readkey..
 
-        var statistics = new Statistics();
-        var statisticsAccuracy = "";
-        var statisticsWPM = "";
-
-        for (int i = 0; i < TtBrain.Lines.AllWords.Count; i++) // count is wrong!!
+        for (int i = 0; i < TtBrain.Lines.AllLines.Count; i++)
         {
-            foreach (var word in TtBrain.Lines.AllWords)
+            var currentWord = TtBrain.Lines.AllLines[i].Split(" ").Last();
+            var currentIndex = 0;
+            while(currentWord == TtBrain.Lines.AllWords[currentIndex])
             {
-                
+                WriteLines(i);
+
+                var key = Console.ReadKey().KeyChar.ToString();
+                if (key.Equals(" "))
+                {
+                    int currentLineCursor = Console.CursorTop;
+                    Console.SetCursorPosition(0, Console.CursorTop);
+                    for (int l = 0; l < Console.WindowWidth; l++)
+                        Console.Write(" ");
+                    Console.SetCursorPosition(0, currentLineCursor);
+                    continue;
+                }
+                else if (key.Equals(TtBrain.Lines.AllWords[j]))
+                {
+                    Console.ReadKey().KeyChar.ToString(); // KeyChar reads key as on keyboard, f.e. Spacebar is just space not "Spacebar"
+                    Console.Write(key.ToString(), ConsoleColor.Green);
+
+                }
+                else
+                {
+                    Console.ReadKey().KeyChar.ToString();
+
+
+                }
+
+                if (TtBrain.Lines.AllWords[j].Equals(TtBrain.Lines.AllLines[i].Split(" ").Last()))
+                {
+                    break;
+                }
+
+                currentIndex++;
             }
         }
 
 
         return "";
 
-        
     }
 
-    private void WriteToConsole()
+    private static void WriteLines(int i)
     {
-        Console.WriteLine();
+        if (i != 0)
+        {
+            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i - 1].Length / 2)) + "}", TtBrain.Lines.AllLines[i - 1]), ConsoleColor.Gray);
+        }
+
+        Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i].Length / 2)) + "}", TtBrain.Lines.AllLines[i]));
+
+        if (i != TtBrain.Lines.AllLines.Count - 1)
+        {
+            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i + 1].Length / 2)) + "}", TtBrain.Lines.AllLines[i + 1]), ConsoleColor.Gray);
+        }
     }
 }
 
@@ -112,3 +149,14 @@ class Program
         }
  
  */
+
+/*
+var linesList = new List<string>();
+for (int i = 0; i < text.Length / 50; i++)
+{
+    linesList.Add(text.Substring(i * 50, text.Length - i * 50 >= 50 ? 50 : text.Length - i * 50));
+}
+
+
+Lines.AllLines = linesList;
+*/
