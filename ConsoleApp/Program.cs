@@ -39,12 +39,11 @@ class Program
 
         for (int i = 0; i < TtBrain.Lines.AllLines.Count; i++)
         {
-            var currentWord = TtBrain.Lines.AllLines[i].Split(" ").Last();
-            var currentIndex = 0;
-            while(currentWord == TtBrain.Lines.AllWords[currentIndex])
+            var lastWord = TtBrain.Lines.AllLines[i].Split(" ").Last();
+            var letterIndex = 0;
+            WriteLines(i);
+            while (true)
             {
-                WriteLines(i);
-
                 var key = Console.ReadKey().KeyChar.ToString();
                 if (key.Equals(" "))
                 {
@@ -55,25 +54,23 @@ class Program
                     Console.SetCursorPosition(0, currentLineCursor);
                     continue;
                 }
-                else if (key.Equals(TtBrain.Lines.AllWords[j]))
+                else if (key.Equals(TtBrain.Lines.AllWords[letterIndex]))
                 {
                     Console.ReadKey().KeyChar.ToString(); // KeyChar reads key as on keyboard, f.e. Spacebar is just space not "Spacebar"
                     Console.Write(key.ToString(), ConsoleColor.Green);
+                    Console.WriteLine("Here!!!!!!!!");
 
                 }
                 else
                 {
                     Console.ReadKey().KeyChar.ToString();
-
-
                 }
+                letterIndex++;
 
-                if (TtBrain.Lines.AllWords[j].Equals(TtBrain.Lines.AllLines[i].Split(" ").Last()))
+                if(lastWord == TtBrain.Lines.AllWords[letterIndex] || letterIndex == 10)
                 {
                     break;
                 }
-
-                currentIndex++;
             }
         }
 
