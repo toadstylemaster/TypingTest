@@ -43,16 +43,19 @@ public class TTBrain
         var line = "";
 
         var lines = new List<string>();
+        var iterator = 1;
 
         for (int i = 0; i < Lines.AllWords.Count; i++)
         {
             line += Lines.AllWords[i] + " ";
 
-            if(i != 0 && i % 10 == 0 || i == Lines.AllWords.Count - 1)
+            if(iterator != 1 && iterator % 10 == 0 || i == Lines.AllWords.Count - 1)
             {
                 line = line.Trim();
                 lines.Add(line);
+                line = "";
             }
+            iterator++;
         }
         Lines.AllLines = lines;
     }

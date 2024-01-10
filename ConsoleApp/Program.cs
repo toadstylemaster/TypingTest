@@ -2,6 +2,7 @@
 
 
 using BattleShipConsoleUI;
+using System;
 using TypingTestBrain;
 
 class Program
@@ -36,43 +37,88 @@ class Program
 
         // TODO: Need to get normal input from GetLines().
         // So lines one by one and then just remember current index and compare to readkey..
+        var wordIndex = 0;
+        var letterIndex = 0;
+
+        var wrongStreak = 0;
 
         for (int i = 0; i < TtBrain.Lines.AllLines.Count; i++)
         {
+            Console.Clear();
             var lastWord = TtBrain.Lines.AllLines[i].Split(" ").Last();
-            var letterIndex = 0;
+            
             WriteLines(i);
             while (true)
             {
-                var key = Console.ReadKey().KeyChar.ToString();
-                if (key.Equals(" "))
-                {
-                    int currentLineCursor = Console.CursorTop;
-                    Console.SetCursorPosition(0, Console.CursorTop);
-                    for (int l = 0; l < Console.WindowWidth; l++)
-                        Console.Write(" ");
-                    Console.SetCursorPosition(0, currentLineCursor);
-                    continue;
-                }
-                else if (key.Equals(TtBrain.Lines.AllWords[letterIndex]))
-                {
-                    Console.ReadKey().KeyChar.ToString(); // KeyChar reads key as on keyboard, f.e. Spacebar is just space not "Spacebar"
-                    Console.Write(key.ToString(), ConsoleColor.Green);
-                    Console.WriteLine("Here!!!!!!!!");
-
-                }
-                else
-                {
-                    Console.ReadKey().KeyChar.ToString();
-                }
-                letterIndex++;
-
-                if(lastWord == TtBrain.Lines.AllWords[letterIndex] || letterIndex == 10)
+                if (wordIndex > 0 && lastWord == TtBrain.Lines.AllWords[wordIndex - 1] || wordIndex == 1000)
                 {
                     break;
                 }
+
+                var key = Console.ReadKey(true); // KeyChar reads key as on keyboard, f.e. Spacebar is just space not "Spacebar"
+
+                if (key.Key == ConsoleKey.Spacebar)
+                {
+                    if (letterIndex < TtBrain.Lines.AllWords[wordIndex].Length || wrongStreak > 0)
+                    {
+                        for (var j = 0; j < wrongStreak; j++)
+                        {
+                            Console.Write("\b \b");
+                        }
+                        letterIndex -= wrongStreak;
+                        for (var k = letterIndex; k < TtBrain.Lines.AllWords[wordIndex].Length; k++)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(TtBrain.Lines.AllWords[wordIndex][k]);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                    }
+
+                    Console.Write(" ");
+                    wordIndex++;
+                    letterIndex = 0;
+                    wrongStreak = 0;
+                    continue;
+                }
+                else if (key.Key == ConsoleKey.Backspace)
+                {                    
+                    if (letterIndex == 0 && wordIndex > 0)
+                    {
+                        wordIndex--;
+                        Console.Write("\b \b");
+                        letterIndex = TtBrain.Lines.AllWords[wordIndex].Length;
+                    }
+                    else
+                    {
+                        letterIndex -= 1;
+                        Console.Write("\b \b");
+                    }
+                    
+                }
+                else if (letterIndex < TtBrain.Lines.AllWords[wordIndex].Length + 1 && key.KeyChar.ToString().Equals(TtBrain.Lines.AllWords[wordIndex][letterIndex].ToString()))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(key.KeyChar.ToString());
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else   // TODO: If the letter is wrong, make it red
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write(key.KeyChar.ToString());
+                    Console.ForegroundColor = ConsoleColor.White;
+                    wrongStreak++;
+                }
+
+                if(key.Key != ConsoleKey.Backspace)
+                {
+                    letterIndex++;
+                }
+
             }
+
+            wordIndex = (i + 1) * 10;
         }
+
 
 
         return "";
@@ -81,79 +127,23 @@ class Program
 
     private static void WriteLines(int i)
     {
+
         if (i != 0)
         {
-            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i - 1].Length / 2)) + "}", TtBrain.Lines.AllLines[i - 1]), ConsoleColor.Gray);
+            Console.ForegroundColor = ConsoleColor.Gray; 
+            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i - 1].Length / 2)) + "}", TtBrain.Lines.AllLines[i - 1]));
+            Console.WriteLine();
         }
 
+        Console.ForegroundColor = ConsoleColor.Blue; 
         Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i].Length / 2)) + "}", TtBrain.Lines.AllLines[i]));
+        Console.WriteLine();
 
         if (i != TtBrain.Lines.AllLines.Count - 1)
         {
-            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i + 1].Length / 2)) + "}", TtBrain.Lines.AllLines[i + 1]), ConsoleColor.Gray);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i + 1].Length / 2)) + "}", TtBrain.Lines.AllLines[i + 1]));
         }
+        Console.ForegroundColor = ConsoleColor.White;
     }
 }
-
-
-
-/*
- 
-         for (int i = 0; i < TtBrain.Lines.AllLines.Count; i++)
-        {
-            if(i != 0)
-            {
-                Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i - 1].Length / 2)) + "}", TtBrain.Lines.AllLines[i - 1]), ConsoleColor.Gray);
-            }
-
-            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i].Length / 2)) + "}", TtBrain.Lines.AllLines[i]));
-            
-            if (i != TtBrain.Lines.AllLines.Count - 1)
-            {
-                Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i + 1].Length / 2)) + "}", TtBrain.Lines.AllLines[i + 1]), ConsoleColor.Gray);
-            }
-
-            for (int j = 0; j < TtBrain.Lines.AllLines[i].Length; j++)
-            {
-                for (int k = 0; k < TtBrain.Lines.AllLines[i][j]; k++)
-                {
-                    var key = Console.ReadKey().KeyChar.ToString();
-                    if (key.Equals(" "))
-                    {
-                        int currentLineCursor = Console.CursorTop;
-                        Console.SetCursorPosition(0, Console.CursorTop);
-                        for (int l = 0; l < Console.WindowWidth; l++)
-                            Console.Write(" ");
-                        Console.SetCursorPosition(0, currentLineCursor);
-                        break;
-                        //Console.WriteLine(String.Format(" " + (Console.WindowWidth / 2) + " "));
-                    }
-                    else if (key.Equals(TtBrain.Lines.AllLines[i][j]))
-                    {
-                        Console.ReadKey().KeyChar.ToString(); // KeyChar reads key as on keyboard, f.e. Spacebar is just space not "Spacebar"
-                        Console.Write(key.ToString(), ConsoleColor.Green);
-
-                    }
-                    else
-                    {
-                        Console.ReadKey().KeyChar.ToString();
-
-
-                    }
-                }
-             
-            }
-        }
- 
- */
-
-/*
-var linesList = new List<string>();
-for (int i = 0; i < text.Length / 50; i++)
-{
-    linesList.Add(text.Substring(i * 50, text.Length - i * 50 >= 50 ? 50 : text.Length - i * 50));
-}
-
-
-Lines.AllLines = linesList;
-*/
