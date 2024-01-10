@@ -95,7 +95,7 @@ class Program
                     }
                     
                 }
-                else if (letterIndex < TtBrain.Lines.AllWords[wordIndex].Length + 1 && key.KeyChar.ToString().Equals(TtBrain.Lines.AllWords[wordIndex][letterIndex].ToString()))
+                else if (letterIndex < TtBrain.Lines.AllWords[wordIndex].Length && key.KeyChar.ToString().Equals(TtBrain.Lines.AllWords[wordIndex][letterIndex].ToString()))
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(key.KeyChar.ToString());
