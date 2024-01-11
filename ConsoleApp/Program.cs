@@ -106,12 +106,13 @@ class Program
     private static void HandleKeys(int wordIndex, int letterIndex, int wrongStreak, string lastWord)
     {   
 
-        while (!_isFinished)
+        while (true)
         {
             if(watch.ElapsedMilliseconds >= 60000)
             {
                 watch.Stop();
                 _isFinished = true;
+                break;
             }
 
             if (wordIndex > 0 && lastWord == TtBrain.Lines.AllWords[wordIndex - 1] || wordIndex == 1000)

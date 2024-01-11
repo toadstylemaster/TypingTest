@@ -1,4 +1,4 @@
-﻿namespace BattleShipConsoleUI
+﻿namespace TypingTestConsoleUI
 {
     public enum EMenuLevel
     {

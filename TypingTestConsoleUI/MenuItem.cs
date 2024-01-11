@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace BattleShipConsoleUI
+namespace TypingTestConsoleUI
 {
-    public class MenuItem 
+    public class MenuItem
     {
         public MenuItem(string shortCut, string title, Func<string> runMethod)
         {
@@ -14,7 +14,7 @@ namespace BattleShipConsoleUI
             {
                 throw new ArgumentException("title cannot be empty!");
             }
-            
+
             ShortCut = shortCut.Trim();
             Title = title.Trim();
             RunMethod = runMethod;
@@ -24,7 +24,7 @@ namespace BattleShipConsoleUI
         public string Title { get; private set; }
 
         public Func<string> RunMethod { get; private set; }
-        
+
         public override string ToString()
         {
             return ShortCut + ") " + Title;

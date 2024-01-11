@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BattleShipConsoleUI
+namespace TypingTestConsoleUI
 {
     public class Menu
     {
@@ -70,7 +70,7 @@ namespace BattleShipConsoleUI
         {
             _menuItems.RemoveAt(position);
         }
-        
+
         public void EmptyMenu()
         {
             while (_menuItems.Count != 0)
@@ -80,7 +80,7 @@ namespace BattleShipConsoleUI
 
             _menuShortCuts = new HashSet<string>();
             _menuSpecialShortCuts = new HashSet<string>();
-            
+
             _menuSpecialShortCuts.Add(_menuItemReturn.ShortCut.ToUpper());
             _menuSpecialShortCuts.Add(_menuItemMain.ShortCut.ToUpper());
             _menuSpecialShortCuts.Add(_menuItemExit.ShortCut.ToUpper());
@@ -97,7 +97,7 @@ namespace BattleShipConsoleUI
                 AddMenuItem(menuItem);
             }
         }
-        
+
         public HashSet<string> GetMenuItems()
         {
             return _menuSpecialShortCuts;
