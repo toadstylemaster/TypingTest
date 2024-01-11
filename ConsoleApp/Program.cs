@@ -3,16 +3,21 @@
 
 using BattleShipConsoleUI;
 using System;
+using System.Diagnostics;
 using TypingTestBrain;
 
 class Program
 {
     private static string _basePath = "";
     private static string _textPath = "";
+    private static bool _isFinished = false;
     public static Statistics Statistics = new Statistics();
     public static Lines Lines = new Lines();
     public static Word Word = new Word();
     public static TTBrain TtBrain = new TTBrain(Lines, Statistics);
+    static bool isTimerRuning;
+    private static Stopwatch watch = new Stopwatch();
+
 
     static void Main(string[] args)
     {
@@ -32,6 +37,7 @@ class Program
 
     public static string StartTypingTest()
     {
+        _isFinished = false;
         TtBrain.GetLinesWithWords(_textPath);
 
 
@@ -42,11 +48,22 @@ class Program
 
         var wrongStreak = 0;
 
+        Console.Clear();
+        Console.WriteLine("Press any key to start typing test.");
+        Console.ReadKey();
+
+        watch.Start();
+
         for (int i = 0; i < TtBrain.Lines.AllLines.Count; i++)
         {
+            if (_isFinished)
+            {
+                break;
+            }
             Console.Clear();
             var lastWord = TtBrain.Lines.AllLines[i].Split(" ").Last();
             
+
             WriteLines(i);
 
             HandleKeys(wordIndex, letterIndex, wrongStreak, lastWord);
@@ -80,13 +97,23 @@ class Program
             Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i + 1].Length / 2)) + "}", TtBrain.Lines.AllLines[i + 1]));
         }
         Console.ForegroundColor = ConsoleColor.White;
+
+        Console.WriteLine();
+        Console.WriteLine();
     }
 
 
     private static void HandleKeys(int wordIndex, int letterIndex, int wrongStreak, string lastWord)
-    {
-        while (true)
+    {   
+
+        while (!_isFinished)
         {
+            if(watch.ElapsedMilliseconds >= 60000)
+            {
+                watch.Stop();
+                _isFinished = true;
+            }
+
             if (wordIndex > 0 && lastWord == TtBrain.Lines.AllWords[wordIndex - 1] || wordIndex == 1000)
             {
                 break;
