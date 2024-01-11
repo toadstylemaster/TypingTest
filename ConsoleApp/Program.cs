@@ -48,73 +48,8 @@ class Program
             var lastWord = TtBrain.Lines.AllLines[i].Split(" ").Last();
             
             WriteLines(i);
-            while (true)
-            {
-                if (wordIndex > 0 && lastWord == TtBrain.Lines.AllWords[wordIndex - 1] || wordIndex == 1000)
-                {
-                    break;
-                }
 
-                var key = Console.ReadKey(true); // KeyChar reads key as on keyboard, f.e. Spacebar is just space not "Spacebar"
-
-                if (key.Key == ConsoleKey.Spacebar)
-                {
-                    if (letterIndex < TtBrain.Lines.AllWords[wordIndex].Length || wrongStreak > 0)
-                    {
-                        for (var j = 0; j < wrongStreak; j++)
-                        {
-                            Console.Write("\b \b");
-                        }
-                        letterIndex -= wrongStreak;
-                        for (var k = letterIndex; k < TtBrain.Lines.AllWords[wordIndex].Length; k++)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(TtBrain.Lines.AllWords[wordIndex][k]);
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                    }
-
-                    Console.Write(" ");
-                    wordIndex++;
-                    letterIndex = 0;
-                    wrongStreak = 0;
-                    continue;
-                }
-                else if (key.Key == ConsoleKey.Backspace)
-                {                    
-                    if (letterIndex == 0 && wordIndex > 0)
-                    {
-                        wordIndex--;
-                        Console.Write("\b \b");
-                        letterIndex = TtBrain.Lines.AllWords[wordIndex].Length;
-                    }
-                    else
-                    {
-                        letterIndex -= 1;
-                        Console.Write("\b \b");
-                    }
-                    
-                }
-                else if (letterIndex < TtBrain.Lines.AllWords[wordIndex].Length && key.KeyChar.ToString().Equals(TtBrain.Lines.AllWords[wordIndex][letterIndex].ToString()))
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write(key.KeyChar.ToString());
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                else   // TODO: If the letter is wrong, make it red
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write(key.KeyChar.ToString());
-                    Console.ForegroundColor = ConsoleColor.White;
-                    wrongStreak++;
-                }
-
-                if(key.Key != ConsoleKey.Backspace)
-                {
-                    letterIndex++;
-                }
-
-            }
+            HandleKeys(wordIndex, letterIndex, wrongStreak, lastWord);
 
             wordIndex = (i + 1) * 10;
         }
@@ -145,5 +80,77 @@ class Program
             Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (TtBrain.Lines.AllLines[i + 1].Length / 2)) + "}", TtBrain.Lines.AllLines[i + 1]));
         }
         Console.ForegroundColor = ConsoleColor.White;
+    }
+
+
+    private static void HandleKeys(int wordIndex, int letterIndex, int wrongStreak, string lastWord)
+    {
+        while (true)
+        {
+            if (wordIndex > 0 && lastWord == TtBrain.Lines.AllWords[wordIndex - 1] || wordIndex == 1000)
+            {
+                break;
+            }
+
+            var key = Console.ReadKey(true); // KeyChar reads key as on keyboard, f.e. Spacebar is just space not "Spacebar"
+
+            if (key.Key == ConsoleKey.Spacebar)
+            {
+                if (letterIndex < TtBrain.Lines.AllWords[wordIndex].Length || wrongStreak > 0)
+                {
+                    for (var j = 0; j < wrongStreak; j++)
+                    {
+                        Console.Write("\b \b");
+                    }
+                    letterIndex -= wrongStreak;
+                    for (var k = letterIndex; k < TtBrain.Lines.AllWords[wordIndex].Length; k++)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(TtBrain.Lines.AllWords[wordIndex][k]);
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                }
+
+                Console.Write(" ");
+                wordIndex++;
+                letterIndex = 0;
+                wrongStreak = 0;
+                continue;
+            }
+            else if (key.Key == ConsoleKey.Backspace)
+            {
+                if (letterIndex == 0 && wordIndex > 0)
+                {
+                    wordIndex--;
+                    Console.Write("\b \b");
+                    letterIndex = TtBrain.Lines.AllWords[wordIndex].Length;
+                }
+                else
+                {
+                    letterIndex -= 1;
+                    Console.Write("\b \b");
+                }
+
+            }
+            else if (letterIndex < TtBrain.Lines.AllWords[wordIndex].Length && key.KeyChar.ToString().Equals(TtBrain.Lines.AllWords[wordIndex][letterIndex].ToString()))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(key.KeyChar.ToString());
+                Console.ForegroundColor = ConsoleColor.White;
+                wrongStreak = 0;
+            }
+            else   // TODO: If the letter is wrong, make it red
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(key.KeyChar.ToString());
+                Console.ForegroundColor = ConsoleColor.White;
+                wrongStreak++;
+            }
+
+            if (key.Key != ConsoleKey.Backspace)
+            {
+                letterIndex++;
+            }
+        }
     }
 }
