@@ -1,10 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
-using BattleShipConsoleUI;
+using TypingTestConsoleUI;
 using System;
 using System.Diagnostics;
 using TypingTestBrain;
+using System.Reflection.Metadata;
 
 class Program
 {
@@ -48,6 +49,9 @@ class Program
 
         var wrongStreak = 0;
 
+        var rightStr = "";
+        var wrongStr = "";
+
         Console.Clear();
         Console.WriteLine("Press any key to start typing test.");
         Console.ReadKey();
@@ -66,7 +70,7 @@ class Program
 
             WriteLines(i);
 
-            HandleKeys(wordIndex, letterIndex, wrongStreak, lastWord);
+            HandleKeys(wordIndex, letterIndex, wrongStreak, lastWord, rightStr, wrongStr);
 
             wordIndex = (i + 1) * 10;
         }
@@ -103,7 +107,7 @@ class Program
     }
 
 
-    private static void HandleKeys(int wordIndex, int letterIndex, int wrongStreak, string lastWord)
+    private static void HandleKeys(int wordIndex, int letterIndex, int wrongStreak, string lastWord, string rightLetters, string wrongLetters)
     {   
 
         while (true)
@@ -155,6 +159,10 @@ class Program
                 }
                 else
                 {
+                    if (wrongStreak > 0)
+                    {
+                        wrongStreak--;
+                    }
                     letterIndex -= 1;
                     Console.Write("\b \b");
                 }
@@ -165,6 +173,7 @@ class Program
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write(key.KeyChar.ToString());
                 Console.ForegroundColor = ConsoleColor.White;
+                rightLetters += key.KeyChar.ToString();
                 wrongStreak = 0;
             }
             else   // TODO: If the letter is wrong, make it red
@@ -172,6 +181,7 @@ class Program
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(key.KeyChar.ToString());
                 Console.ForegroundColor = ConsoleColor.White;
+                wrongLetters += key.KeyChar.ToString();
                 wrongStreak++;
             }
 
