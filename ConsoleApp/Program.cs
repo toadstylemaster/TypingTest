@@ -75,7 +75,8 @@ class Program
             wordIndex = (i + 1) * 10;
         }
 
-
+        Console.WriteLine(rightStr);
+        Console.WriteLine(wrongStr);
 
         return "";
 
@@ -112,7 +113,7 @@ class Program
 
         while (true)
         {
-            if(watch.ElapsedMilliseconds >= 60000)
+            if(watch.ElapsedMilliseconds >= 10000) // 60000 milliseconds is 1 minute
             {
                 watch.Stop();
                 _isFinished = true;
@@ -151,17 +152,20 @@ class Program
             }
             else if (key.Key == ConsoleKey.Backspace)
             {
-                if (letterIndex == 0 && wordIndex > 0)
+                if (letterIndex == 0)
                 {
-                    wordIndex--;
-                    Console.Write("\b \b");
-                    letterIndex = TtBrain.Lines.AllWords[wordIndex].Length;
+                    continue;
                 }
                 else
                 {
                     if (wrongStreak > 0)
                     {
                         wrongStreak--;
+                        wrongLetters = wrongLetters.Substring(0, wrongLetters.Length - 1);
+                    }
+                    else
+                    {
+                        rightLetters = rightLetters[..^1];
                     }
                     letterIndex -= 1;
                     Console.Write("\b \b");
@@ -190,5 +194,8 @@ class Program
                 letterIndex++;
             }
         }
+
+        Console.WriteLine(rightLetters.ToString());
+        Console.WriteLine(wrongLetters.ToString());
     }
 }
